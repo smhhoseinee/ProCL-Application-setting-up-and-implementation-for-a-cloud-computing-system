@@ -8,7 +8,16 @@ services:
       - back-tier
     volumes:
       - ./sites-enabled:/etc/nginx/conf.d
-
+        volumes:
+      - my-db:/var/lib/mysql
+    deploy:
+        resources:
+            limits:
+              cpus: 0.50
+              memory: 512M
+            reservations:
+              cpus: 0.25
+              memory: 128M
 
   db:
     image: mysql:5.7
@@ -30,7 +39,16 @@ services:
       # Where our data will be persisted
     volumes:
       - my-db:/var/lib/mysql
-  backend:
+    deploy:
+        resources:
+            limits:
+              cpus: 0.50
+              memory: 512M
+            reservations:
+              cpus: 0.25
+              memory: 128M
+
+ backend:
           #   image: node:18
     build: 
       context: .
@@ -39,12 +57,16 @@ services:
       #      - db-data:/etc/data
     networks:
       - back-tier
-
-        #volumes:
-        #  db-data:
-        #    driver: flocker
-        #    driver_opts:
-        #      size: "10GiB"
+        volumes:
+      - my-db:/var/lib/mysql
+    deploy:
+        resources:
+            limits:
+              cpus: 0.50
+              memory: 512M
+            reservations:
+              cpus: 0.25
+              memory: 128M
 
 # Names our volume
 volumes:
