@@ -1,9 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgres
+  name: postgres-service
 spec:
-  ports:
-  - port: 5432
   selector:
     app: postgres
+  ports:
+  - name: postgres
+    port: 5432
+    targetPort: 5432
+  type: LoadBalancer # you can use ClusterIP for internal cluster traffic only

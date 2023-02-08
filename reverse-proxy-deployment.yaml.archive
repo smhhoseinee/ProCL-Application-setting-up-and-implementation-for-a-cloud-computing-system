@@ -35,18 +35,11 @@ spec:
           volumeMounts:
             - mountPath: /etc/nginx/conf.d
               name: reverse-proxy-claim0
-              # - image: quay.io/prometheus/nginx-exporter:v0.12.0
-        - image: nginx/nginx-prometheus-exporter
-          name: nginx-exporter
-          ports:
-            - containerPort: 9113
-          resources: {}
-          args: 
-            - --nginx.scrape-uri=http://127.0.0.1:80/status
+              #     restartPolicy: Always
+
       volumes:
         - name: reverse-proxy-claim0
           persistentVolumeClaim:
             claimName: reverse-proxy-claim0
-
+      
 status: {}
-

@@ -1,0 +1,9 @@
+- job_name: nginx-exporter
+  scrape_interval: 5s
+  scrape_timeout: 5s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+    - targets:
+      - nginx-exporter:9113
+

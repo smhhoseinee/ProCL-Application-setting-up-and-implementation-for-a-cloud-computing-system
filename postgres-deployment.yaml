@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: postgres
 spec:
+  replicas: 1 # specify the desired number of replicas
   selector:
     matchLabels:
       app: postgres
@@ -11,15 +12,38 @@ spec:
       labels:
         app: postgres
     spec:
+      volumes:
+      - name: postgres-data
+        persistentVolumeClaim:
+          claimName: postgres-data-claim
       containers:
       - name: postgres
         image: postgres:9.6.5
         ports:
-        - containerPort: 5432
+        - containerPort: 5432 
         env:
         - name: POSTGRES_DB
-          value: url_shortener_db
+          valueFrom:
+            secretKeyRef:
+              name: database-secret-config
+              key: dbname
         - name: POSTGRES_USER
-          value: user
+          valueFrom:
+            secretKeyRef:
+              name: database-secret-config
+              key: username
         - name: POSTGRES_PASSWORD
-          value: mysecretpassword
+          valueFrom:
+            secretKeyRef:
+              name: database-secret-config
+              key: password
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+        resources:
+          limits:
+            cpu: 500m
+            memory: 512Mi
+          requests:
+            cpu: 250m
+            memory: 256Mi
