@@ -1,4 +1,4 @@
-# Cloud_Computing_Project
+# Setting up and implementation of a cloud computing system for ProCL Application
 
 This repository contains the source code and related documentation of a Cloud Computing Project developed by [smhhoseinee](https://github.com/smhhoseinee).
 
